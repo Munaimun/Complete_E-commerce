@@ -1,11 +1,16 @@
-import Container from "./components/Container";
+// import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
+
+import BannerCategories from "./components/BannerCategories";
+import HomeBanner from "./components/HomeBanner";
+import HighLights from "./components/HighLights";
 
 function App() {
   return (
     <div className="max-w-screen-xl text-center mx-auto">
-      <Container>
-        <p>Hello world</p>
-      </Container>
+      <BannerCategories />
+      <HomeBanner />
+      <HighLights />
     </div>
   );
 }

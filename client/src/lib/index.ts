@@ -4,7 +4,7 @@ export const getData = async (endpoint: string) => {
   try {
     const response = await axios.get(endpoint, {
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/json", //jason parsing
       },
     });
     return response.data;

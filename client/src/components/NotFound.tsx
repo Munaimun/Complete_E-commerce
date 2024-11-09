@@ -7,7 +7,7 @@ import {
 import { LuChevronRight } from "react-icons/lu";
 import { useLocation } from "react-router-dom";
 import Container from "./Container";
-import LinkButton from "./LikeButton";
+import LinkButton from "./LinkButton";
 
 const links = [
   {
