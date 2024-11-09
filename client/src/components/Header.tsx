@@ -140,7 +140,8 @@ const Header = () => {
               className="uppercase hidden md:inline-flex text-sm font-semibold text-black hover:text-gray-500 cursor-pointer duration-200 relative overflow-hidden group"
             >
               {title}
-              <span className="inline-flex w-full h-[1px] bg-white absolute bottom-0 left-0 transform -translate-x-[105%] group-hover:translate-x-0 duration-300" />
+              {/* span is for underline hover effect */}
+              <span className="inline-flex w-full h-[1px] bg-black absolute bottom-0 left-0 transform -translate-x-[105%] group-hover:translate-x-0 duration-300" />
             </Link>
           ))}
         </div>

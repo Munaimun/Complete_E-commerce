@@ -119,7 +119,7 @@ export const highlightsProducts = [
     buttonTitle: "Browse Deals",
     image: "https://i.ibb.co/G951N5B/highlights-One.webp",
     _base: "/product",
-    color: "#000000",
+    color: "#ffffff",
   },
   {
     _id: 3002,
