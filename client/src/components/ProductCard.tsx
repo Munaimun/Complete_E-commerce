@@ -12,6 +12,8 @@ import {
 import { ProductProps } from "../../type";
 
 import AddToCartBtn from "./AddToCartBtn";
+import FormattedPrice from "./FormattedPrice";
+import ProductCardSideNav from "./ProductCardSideNav";
 
 interface Props {
   item: ProductProps;
@@ -46,7 +48,9 @@ const ProductCard = ({ item }: Props) => {
           alt="Product Image"
           className="w-full h-full rounded-md object-cover group-hover:scale-110 duration-300"
         />
+
         {/* product Cards side nav */}
+        <ProductCardSideNav />
       </div>
 
       <div className="flex flex-col gap-2 px-2 pb-2">
@@ -91,10 +95,10 @@ const ProductCard = ({ item }: Props) => {
                   </DialogTitle>
                   <p className="mt-2 text-sm/6 text-white/50">
                     You are going to save{" "}
-                    <span className="text-skyText">
-                      {/* <FormattedPrice
+                    <span className="text-cyan-400">
+                      <FormattedPrice
                         amount={item?.regularPrice - item?.discountedPrice}
-                      />{" "} */}
+                      />{" "}
                     </span>
                     from this product.
                   </p>

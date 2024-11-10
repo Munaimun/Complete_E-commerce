@@ -1,6 +1,8 @@
 import { HiArrowRight } from "react-icons/hi";
 
 const CustomRightArrow = ({ onClick }: any) => {
+  console.log("right arrow logged");
+
   return (
     <button
       onClick={onClick}

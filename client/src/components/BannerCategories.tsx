@@ -42,7 +42,9 @@ const BannerCategories = () => {
       }
     };
     fetchData();
+    console.log("");
   }, []);
+
   return (
     <Carousel
       responsive={responsive}
