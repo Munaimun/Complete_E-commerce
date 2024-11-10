@@ -95,8 +95,8 @@ const Header = () => {
       </div>
 
       {/* The categories */}
-      <div className="w-full shadow-xl">
-        <div className="py-2 flex items-center gap-5 justify-between max-w-screen-xl mx-auto px-4">
+      <div className="max-w-screen-xl shadow-xl">
+        <div className="py-2 flex items-center gap-5 justify-between  mx-auto px-3">
           <Menu>
             <MenuButton className="inline-flex items-center gap-2 rounded-md border hover:border-gray-950 py-1.5 px-3 font-semibold text-gray-500 hover:text-black">
               select category <FaChevronDown className="text-base mt-1" />

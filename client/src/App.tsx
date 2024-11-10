@@ -5,6 +5,7 @@ import BannerCategories from "./components/BannerCategories";
 import HomeBanner from "./components/HomeBanner";
 import HighLights from "./components/HighLights";
 import Categories from "./components/Categories";
+import ProductList from "./components/ProductList";
 
 function App() {
   return (
@@ -13,6 +14,9 @@ function App() {
       <HomeBanner />
       <HighLights />
       <Categories />
+      <ProductList />
+      {/* DiscountedBanner */}
+      {/* blog */}
     </div>
   );
 }
