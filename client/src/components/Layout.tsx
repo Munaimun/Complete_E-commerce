@@ -7,7 +7,7 @@ import { Toaster } from "react-hot-toast";
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     // defining how the applications layout should look like
-    <div className="max-w-screen-xl mx-auto text-center">
+    <div className="mx-auto text-center">
       <Header />
       {children}
       <Footer />

@@ -48,8 +48,8 @@ const Header = () => {
   }, []);
 
   return (
-    <div className="md:sticky md:top-0 z-50">
-      <div className="h-20 flex items-center justify-between px-4 lg:px-0">
+    <div className="md:sticky md:top-0 z-50 mx-auto">
+      <div className="h-20 flex items-center justify-between px-5 md:px-10">
         {/* Logo */}
         <Link to="/">
           <img src={logo} alt="logo" className="w-32" />
@@ -95,8 +95,8 @@ const Header = () => {
       </div>
 
       {/* The categories */}
-      <div className="max-w-screen-xl shadow-xl">
-        <div className="py-2 flex items-center gap-5 justify-between  mx-auto px-3">
+      <div className="shadow-xl">
+        <div className="py-2 flex items-center gap-5 justify-between  mx-auto px-4 md:px-10">
           <Menu>
             <MenuButton className="inline-flex items-center gap-2 rounded-md border hover:border-gray-950 py-1.5 px-3 font-semibold text-gray-500 hover:text-black">
               select category <FaChevronDown className="text-base mt-1" />

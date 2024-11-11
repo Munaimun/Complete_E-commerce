@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { MdOutlineStarOutline } from "react-icons/md";
 import {
   Button,
@@ -21,6 +22,7 @@ interface Props {
 
 const ProductCard = ({ item }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
 
   const handleOpen = () => {
     setIsOpen(true);
@@ -34,6 +36,10 @@ const ProductCard = ({ item }: Props) => {
   const percentage =
     ((item?.regularPrice - item?.discountedPrice) / item?.regularPrice) * 100;
 
+  const handleClick = () => {
+    navigate(`/product/${item?._id}`);
+  };
+
   return (
     <div className="border border-gray-200 rounded-lg p-1 overflow-hidden hover:border-black delay-200 cursor-pointer">
       <div className="w-full h-60 relative p-2 group">
@@ -44,6 +50,7 @@ const ProductCard = ({ item }: Props) => {
           save {percentage.toFixed(0)}%
         </span>
         <img
+          onClick={handleClick}
           src={item?.images[0]}
           alt="Product Image"
           className="w-full h-full rounded-md object-cover group-hover:scale-110 duration-300"

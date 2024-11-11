@@ -6,17 +6,19 @@ import HomeBanner from "./components/HomeBanner";
 import HighLights from "./components/HighLights";
 import Categories from "./components/Categories";
 import ProductList from "./components/ProductList";
+import DiscountBanner from "./components/DiscountBanner";
+import Blog from "./components/Blog";
 
 function App() {
   return (
-    <div className="max-w-screen-xl text-center mx-auto">
+    <div className="text-center mx-auto">
       <BannerCategories />
       <HomeBanner />
       <HighLights />
       <Categories />
       <ProductList />
-      {/* DiscountedBanner */}
-      {/* blog */}
+      <DiscountBanner />
+      <Blog />
     </div>
   );
 }
