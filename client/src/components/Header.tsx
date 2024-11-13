@@ -8,16 +8,17 @@ import {
   Transition,
 } from "@headlessui/react";
 
-import { CategoryProps } from "../../type";
-
 import { IoClose, IoSearchOutline } from "react-icons/io5";
 import { FiUser, FiStar, FiShoppingBag } from "react-icons/fi";
 import { FaChevronDown } from "react-icons/fa6";
 
 import { config } from "../../config";
+import { getData } from "../lib";
+
+import { CategoryProps, ProductProps } from "../../type";
 
 import logo from "../assets/logo.png";
-import { getData } from "../lib";
+import ProductCard from "./ProductCard";
 
 // all the navigation links
 const bottomNavigation = [
@@ -31,31 +32,47 @@ const bottomNavigation = [
 
 const Header = () => {
   const [searchText, setSearchText] = useState("");
-
   const [categories, setCategories] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const endpoint = `${config?.baseUrl}/categories`;
       try {
-        const data = await getData(endpoint); //getData is defined in another file
-        setCategories(data);
+        // Fetch categories
+        const categoriesEndpoint = `${config?.baseUrl}/categories`;
+        const categoriesData = await getData(categoriesEndpoint);
+        setCategories(categoriesData);
+
+        // Fetch products
+        const productsEndpoint = `${config?.baseUrl}/products`;
+        const productsData = await getData(productsEndpoint);
+        setProducts(productsData);
       } catch (error) {
-        console.log("Errot fetching data", error);
+        console.log("Error fetching data", error);
       }
     };
+
     fetchData();
   }, []);
 
+  useEffect(() => {
+    const filtered = products.filter((item: ProductProps) =>
+      item.name.toLowerCase().includes(searchText.toLowerCase())
+    );
+
+    setFilteredProducts(filtered); // Save the filtered list to state
+  }, [searchText, products]);
+
   return (
-    <div className="md:sticky md:top-0 z-50 mx-auto">
+    <div className="md:sticky bg-white md:top-0 z-50 mx-auto">
       <div className="h-20 flex items-center justify-between px-5 md:px-10">
         {/* Logo */}
         <Link to="/">
           <img src={logo} alt="logo" className="w-32" />
         </Link>
 
-        {/* searchbar */}
+        {/* SEARCHBAR */}
         <div className="hidded md:inline-flex max-w-3xl w-full relative">
           <input
             type="text"
@@ -73,6 +90,25 @@ const Header = () => {
             <IoSearchOutline className="absolute top-2.5 right-4 text-xl" />
           )}
         </div>
+
+        {/* Searched Product */}
+        {searchText && (
+          <div className="absolute left-0 top-20 w-full mx-auto max-h-[450px] px-10 py-5 bg-white/30 z-20 overflow-y-scroll cursor-pointer text-black shadow-lg shadow-slate-300 backdrop-filter backdrop-blur-lg border border-white/20 scrollbar-hide">
+            {filteredProducts.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-5">
+                {filteredProducts?.map((item: ProductProps) => (
+                  <ProductCard item={item} setSearchText={setSearchText} />
+                ))}
+              </div>
+            ) : (
+              <div className="py-10 w-full flex items-center justify-center border border-gray-600 rounded-md ">
+                <p className="text-xl text-red-500">nothing found</p>
+                <span className="underline underline-offset-2 decoration-[1px] text-red-500 font-semibold">{`(${searchText})`}</span>
+                . Please try again!
+              </div>
+            )}
+          </div>
+        )}
 
         {/* menubar */}
         <div className="flex items-center gap-x-6 sm:text-2xl">
@@ -95,7 +131,7 @@ const Header = () => {
       </div>
 
       {/* The categories */}
-      <div className="shadow-xl">
+      <div className="shadow-md">
         <div className="py-2 flex items-center gap-5 justify-between  mx-auto px-4 md:px-10">
           <Menu>
             <MenuButton className="inline-flex items-center gap-2 rounded-md border hover:border-gray-950 py-1.5 px-3 font-semibold text-gray-500 hover:text-black">

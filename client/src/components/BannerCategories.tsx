@@ -5,8 +5,8 @@ import Carousel from "react-multi-carousel";
 import { config } from "../../config";
 import { getData } from "../lib";
 import { CategoryProps } from "../../type";
-import CustomRightArrow from "./CustomRightArrow";
-import CustomLeftArrow from "./CustomLeftArrow";
+import CustomRightArrow from "./Arrows/CustomRightArrow";
+import CustomLeftArrow from "./Arrows/CustomLeftArrow";
 
 const responsive = {
   superLargeDesktop: {

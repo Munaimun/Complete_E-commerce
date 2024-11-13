@@ -31,11 +31,9 @@ const Categories = () => {
           <Title text="Popular Categories" />
           <Link
             to={`/category/tvAndAudio`}
-            className="font-medium relative group overflow-hidden"
+            className="relative flex h-[50px] w-40 items-center justify-center overflow-hidden bg-gray-800 text-white shadow-2xl transition-all before:absolute before:h-0 before:w-0 before:rounded-full before:bg-orange-600 before:duration-500 before:ease-out hover:shadow-orange-600 hover:before:h-56 hover:before:w-56"
           >
-            View All Categories
-            {/* underline hover effect */}
-            <span className="inline-flex w-full h-[1px] bg-black absolute bottom-0 left-0 transform -translate-x-[105%] group-hover:translate-x-0 duration-300" />
+            <span className="relative z-10">View All Categories</span>
           </Link>
         </div>
         <div className="w-full h-[1px] bg-gray-200 mt-3" />

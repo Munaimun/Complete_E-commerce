@@ -18,9 +18,10 @@ import ProductCardSideNav from "./ProductCardSideNav";
 
 interface Props {
   item: ProductProps;
+  setSearchText?: any;
 }
 
-const ProductCard = ({ item }: Props) => {
+const ProductCard = ({ item, setSearchText }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -38,6 +39,8 @@ const ProductCard = ({ item }: Props) => {
 
   const handleClick = () => {
     navigate(`/product/${item?._id}`);
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+    setSearchText && setSearchText("");
   };
 
   return (
