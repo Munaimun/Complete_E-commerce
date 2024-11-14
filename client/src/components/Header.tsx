@@ -19,6 +19,7 @@ import { CategoryProps, ProductProps } from "../../type";
 
 import logo from "../assets/logo.png";
 import ProductCard from "./ProductCard";
+import { store } from "../lib/store";
 
 // all the navigation links
 const bottomNavigation = [
@@ -35,6 +36,12 @@ const Header = () => {
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const { cartProduct } = store();
+
+  const totalCartQuantity = cartProduct.reduce(
+    (acc, product) => acc + (product.quantity || 1), // defaults to 1 if quantity is not defined
+    0
+  );
 
   useEffect(() => {
     const fetchData = async () => {
@@ -124,7 +131,9 @@ const Header = () => {
           <Link to={"/cart"} className="relative block">
             <FiShoppingBag className="duration-200 cursor-pointer" />
             <span className="inline-flex items-center justify-center absolute -top-2 -right-2 text-[9px]  rounded-full w-4 h-4 bg-red-500 text-white">
-              0
+              <span className="inline-flex items-center justify-center absolute -top-2 -right-2 text-[9px] rounded-full w-4 h-4 bg-red-500 text-white">
+                {totalCartQuantity > 0 ? totalCartQuantity : "0"}
+              </span>
             </span>
           </Link>
         </div>

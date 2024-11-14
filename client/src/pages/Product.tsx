@@ -74,7 +74,7 @@ const Product = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
               <div className="flex flex-start">
                 <div className="">
-                  {productData?.images?.map((item, index) => (
+                  {/* {productData?.images?.map((item, index) => (
                     <img
                       key={index}
                       src={item}
@@ -85,7 +85,7 @@ const Product = () => {
                       }`}
                       onClick={() => setImgUrl(item)}
                     />
-                  ))}
+                  ))} */}
                 </div>
 
                 <div>

@@ -18,6 +18,7 @@ import ProductCardSideNav from "./ProductCardSideNav";
 
 interface Props {
   item: ProductProps;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   setSearchText?: any;
 }
 
@@ -77,7 +78,11 @@ const ProductCard = ({ item, setSearchText }: Props) => {
           <MdOutlineStarOutline />
         </div>
 
-        <AddToCartBtn className="bg-yellow-300" title="Add to cart" />
+        <AddToCartBtn
+          product={item}
+          className="bg-yellow-300"
+          title="Add to cart"
+        />
       </div>
 
       <Transition appear show={isOpen}>
