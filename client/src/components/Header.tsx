@@ -130,8 +130,8 @@ const Header = () => {
           </Link>
           <Link to={"/cart"} className="relative block">
             <FiShoppingBag className="duration-200 cursor-pointer" />
-            <span className="inline-flex items-center justify-center absolute -top-2 -right-2 text-[9px]  rounded-full w-4 h-4 bg-red-500 text-white">
-              <span className="inline-flex items-center justify-center absolute -top-2 -right-2 text-[9px] rounded-full w-4 h-4 bg-red-500 text-white">
+            <span className="inline-flex items-center justify-center absolute -top-2 -right-2 text-[9px]  rounded-full w-4 h-4 text-white">
+              <span className="inline-flex items-center justify-center absolute -top-1 -right-1 text-[9px] rounded-full w-4 h-4 bg-red-500 text-white">
                 {totalCartQuantity > 0 ? totalCartQuantity : "0"}
               </span>
             </span>
