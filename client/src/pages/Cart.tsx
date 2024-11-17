@@ -116,7 +116,7 @@ const Card = () => {
                 {/* END OF BILLING TABLE */}
               </dl>
 
-              <CheckoutBtn products={cartProduct} />
+              <CheckoutBtn />
             </section>
           </div>
         </>
