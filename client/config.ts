@@ -5,7 +5,7 @@ interface Config {
   const checkConfig = (server: string): Config => {
     switch (server) {
       case "production":
-        return { baseUrl: "https://supergearyt.vercel.app/" }; //apiUrl
+        return { baseUrl: "" };
       case "local":
         return { baseUrl: "http://localhost:8000" };
       default:
