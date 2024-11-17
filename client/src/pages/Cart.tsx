@@ -51,14 +51,6 @@ const Card = () => {
               </span>
 
               {/* THE BILLING TABLE */}
-              <dl className="mt-6 space-y-4">
-                <div className="flex items-center justify-between">
-                  <dt className="text-sm text-gray-600">Subtotal</dt>
-                  <dd className="text-sm font-medium text-gray-900">
-                    <FormattedPrice amount={totalAmount.regular} />
-                  </dd>
-                </div>
-              </dl>
 
               <dl className="mt-6 space-y-4">
                 <div className="flex items-center justify-between">
