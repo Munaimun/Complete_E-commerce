@@ -1,7 +1,7 @@
-import { ProductProps } from "../../type";
+// import { ProductProps } from "../../type";
 import { store } from "../lib/store";
 
-const CheckoutBtn = ({ products }: { products: ProductProps[] }) => {
+const CheckoutBtn = () => {
   const { currentUser } = store();
 
   return (
