@@ -163,7 +163,7 @@ export const store = create<StoreType>()(
       },
     }),
     {
-      name: "supergear-storage",
+      name: "ecommerce-storage",
       storage: customStorage,
     }
   )

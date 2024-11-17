@@ -5,6 +5,7 @@ import Carousel from "react-multi-carousel";
 import { config } from "../../config";
 import { getData } from "../lib";
 import { CategoryProps } from "../../type";
+
 import CustomRightArrow from "./Arrows/CustomRightArrow";
 import CustomLeftArrow from "./Arrows/CustomLeftArrow";
 

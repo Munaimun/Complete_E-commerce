@@ -5,8 +5,8 @@ import { getData } from "../lib";
 
 import { BlogProps } from "../../type";
 
-import Container from "./Container";
-import Title from "./Title";
+import Container from "../components/Container";
+import Title from "../components/Title";
 
 const Blog = () => {
   const [blogs, setBlogs] = useState([]);

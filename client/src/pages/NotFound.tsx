@@ -6,8 +6,8 @@ import {
 } from "react-icons/hi2";
 import { LuChevronRight } from "react-icons/lu";
 import { useLocation } from "react-router-dom";
-import Container from "./Container";
-import LinkButton from "./LinkButton";
+import Container from "../components/Container";
+import LinkButton from "../components/LinkButton";
 
 const links = [
   {
@@ -44,15 +44,16 @@ const NotFound = () => {
       <div className="bg-white">
         <main className="px-6 pb-16 pt-10 sm:pb-24 lg:px-8">
           <div className="text-center">
-            <p className="text-4xl font-bold leading-8 text-skyText">404</p>
+            <p className="text-4xl font-bold leading-8 text-skyText">404 😞</p>
             <h1 className="mt-2 text-3xl font-bold tracking-tight text-darkText">
-              <span className="text-redText underline underline-offset-2 decoration-[1px] capitalize">
+              <span className="text-red-600 underline underline-offset-2 decoration-[1px] capitalize">
                 {path}
               </span>{" "}
               does not exist
             </h1>
             <p className="mt-2 text-base leading-7 text-gray-600 sm:mt-6 sm:text-lg sm:leading-8">
-              Sorry, we couldn’t find the {path} page you’re looking for.
+              <span className="text-yellow-300 text-2xl">Sorry</span>, we
+              couldn’t find the {path} page you’re looking for.
             </p>
           </div>
           <div className="mx-auto mt-6 flow-root max-w-lg">

@@ -1,12 +1,33 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+
+import { FaQuestionCircle } from "react-icons/fa";
 
 import { store } from "../lib/store";
 
 import Container from "../components/Container";
 import CartProduct from "../components/CartProduct";
+import FormattedPrice from "../components/FormattedPrice";
+import CheckoutBtn from "../components/CheckoutBtn";
 
 const Card = () => {
+  const [totalAmount, setTotalAmount] = useState({ regular: 0, discounted: 0 });
   const { cartProduct } = store();
+
+  const shippinAmt = 25;
+  const taxAmt = 15;
+
+  useEffect(() => {
+    const totals = cartProduct.reduce(
+      (sum, product) => {
+        sum.regular += product?.regularPrice * product?.quantity;
+        sum.discounted += product?.discountedPrice * product?.quantity;
+        return sum;
+      },
+      { regular: 0, discounted: 0 }
+    );
+    setTotalAmount(totals);
+  }, [cartProduct]);
 
   return (
     <Container>
@@ -28,6 +49,74 @@ const Card = () => {
               <span className="text-lg font-medium text-gray-900">
                 Order summary
               </span>
+
+              {/* THE BILLING TABLE */}
+              <dl className="mt-6 space-y-4">
+                <div className="flex items-center justify-between">
+                  <dt className="text-sm text-gray-600">Subtotal</dt>
+                  <dd className="text-sm font-medium text-gray-900">
+                    <FormattedPrice amount={totalAmount.regular} />
+                  </dd>
+                </div>
+              </dl>
+
+              <dl className="mt-6 space-y-4">
+                <div className="flex items-center justify-between">
+                  <dt className="text-sm text-gray-600">Subtotal</dt>
+                  <dd className="text-sm font-medium text-gray-900">
+                    <FormattedPrice amount={totalAmount?.regular} />
+                  </dd>
+                </div>
+                <div className="flex items-center justify-between border-t border-gray-200 pt-4">
+                  <dt className="flex items-center text-sm text-gray-600">
+                    <span>Shipping estimate</span>
+
+                    <FaQuestionCircle
+                      className="h-5 w-5 text-gray-400 ml-2"
+                      aria-hidden="true"
+                    />
+                  </dt>
+                  <dd className="text-sm font-medium text-gray-900">
+                    <FormattedPrice amount={shippinAmt} />
+                  </dd>
+                </div>
+                <div className="flex items-center justify-between border-t border-gray-200 pt-4">
+                  <dt className="flex text-sm text-gray-600">
+                    <span>Tax estimate</span>
+
+                    <FaQuestionCircle
+                      className="h-5 w-5 text-gray-400 ml-2"
+                      aria-hidden="true"
+                    />
+                  </dt>
+                  <dd className="text-sm font-medium text-gray-900">
+                    <FormattedPrice amount={taxAmt} />
+                  </dd>
+                </div>
+                <div className="flex items-center justify-between border-t border-gray-200 pt-4">
+                  <dt className="text-base font-medium text-gray-900">
+                    Total Discount
+                  </dt>
+                  <dd className="text-base font-medium text-gray-500">
+                    <FormattedPrice
+                      amount={totalAmount?.regular - totalAmount?.discounted}
+                    />
+                  </dd>
+                </div>
+                <div className="flex items-center justify-between border-t border-gray-200 pt-4">
+                  <dt className="text-base font-medium text-gray-900">
+                    Order total
+                  </dt>
+                  <dd className="text-lg font-bold text-gray-900">
+                    <FormattedPrice
+                      amount={totalAmount?.discounted + shippinAmt + taxAmt}
+                    />
+                  </dd>
+                </div>
+                {/* END OF BILLING TABLE */}
+              </dl>
+
+              <CheckoutBtn products={cartProduct} />
             </section>
           </div>
         </>

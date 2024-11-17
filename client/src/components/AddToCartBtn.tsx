@@ -48,7 +48,9 @@ const AddToCartBtn = ({ className, title, product }: Props) => {
           `${existingProduct?.name.slice(0, 10) + "... decreased successfully"}`
         );
       } else {
-        toast.error("You can not decrease which is less than 1");
+        toast.error(
+          "You can't decrease which is less than 1, you can remove the item"
+        );
       }
     } else {
       console.log("error from add to cart compo");

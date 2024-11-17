@@ -7,7 +7,7 @@ import HighLights from "./components/HighLights";
 import Categories from "./components/Categories";
 import ProductList from "./components/ProductList";
 import DiscountBanner from "./components/DiscountBanner";
-import Blog from "./components/Blog";
+import Blog from "./pages/Blog";
 
 function App() {
   return (

@@ -9,7 +9,7 @@ import {
 } from "@headlessui/react";
 
 import { IoClose, IoSearchOutline } from "react-icons/io5";
-import { FiUser, FiStar, FiShoppingBag } from "react-icons/fi";
+import { FiStar, FiShoppingBag } from "react-icons/fi";
 import { FaChevronDown } from "react-icons/fa6";
 
 import { config } from "../../config";
@@ -36,7 +36,7 @@ const Header = () => {
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
-  const { cartProduct } = store();
+  const { cartProduct, favoriteProduct } = store();
 
   const totalCartQuantity = cartProduct.reduce(
     (acc, product) => acc + (product.quantity || 1), // defaults to 1 if quantity is not defined
@@ -119,13 +119,13 @@ const Header = () => {
 
         {/* menubar */}
         <div className="flex items-center gap-x-6 sm:text-2xl">
-          <Link to={"/profile"}>
+          {/* <Link to={"/profile"}>
             <FiUser className="duration-200 cursor-pointer" />
-          </Link>
+          </Link> */}
           <Link to={"/favorite"} className="relative block">
             <FiStar className="duration-200 cursor-pointer" />
             <span className="inline-flex items-center justify-center absolute -top-2 -right-2 text-[9px]  rounded-full w-4 h-4 bg-red-500 text-white">
-              0
+              {favoriteProduct?.length > 0 ? favoriteProduct?.length : 0}
             </span>
           </Link>
           <Link to={"/cart"} className="relative block">
