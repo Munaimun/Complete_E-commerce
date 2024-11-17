@@ -1,6 +1,6 @@
 # E-commerce Frontend Application  
 
-This is the frontend of an E-commerce web application designed to provide a seamless online shopping experience. Built with modern web technologies, the application is focused on delivering a user-friendly interface and responsive design while integrating essential e-commerce functionalities.  
+This is an E-commerce web application designed to provide a seamless online shopping experience. Built with modern web technologies, the application is focused on delivering a user-friendly interface and responsive design while integrating essential e-commerce functionalities.  
 
 ## Features  
 - **Product Categorization:** Browse products based on dynamic categories.  
