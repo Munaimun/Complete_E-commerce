@@ -5,7 +5,7 @@ interface Config {
   const checkConfig = (server: string): Config => {
     switch (server) {
       case "production":
-        return { baseUrl: "" };
+        return { baseUrl: "https://complete-e-commerce.vercel.app" };
       case "local":
         return { baseUrl: "http://localhost:8000" };
       default:
@@ -14,6 +14,6 @@ interface Config {
     }
   };
   
-  export const selectServer = "local";
+  export const selectServer = "production";
   export const config = checkConfig(selectServer) as Config;
   
