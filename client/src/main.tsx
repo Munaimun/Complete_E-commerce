@@ -1,4 +1,5 @@
 import { createRoot } from "react-dom/client";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import RouterLayout from "./RouterLayout/RouterLayout.tsx";
 import Product from "./pages/Product.tsx";
@@ -12,9 +13,9 @@ import Cancel from "./pages/Cancel.tsx";
 import Blog from "./pages/Blog.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import App from "./App.tsx";
+import SignIn from "./pages/Sign-In.tsx";
 
 import "./index.css";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 // Defining all the paths/routes
 const router = createBrowserRouter([
@@ -49,6 +50,10 @@ const router = createBrowserRouter([
       {
         path: "/cart",
         element: <Cart />,
+      },
+      {
+        path: "/signin",
+        element: <SignIn />,
       },
       {
         path: "/favorite",

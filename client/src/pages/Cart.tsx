@@ -33,7 +33,7 @@ const Card = () => {
     <Container>
       {cartProduct?.length > 0 ? (
         <>
-          <span className="text-3xl sm:text-4xl font-bold tracking-tight text-blue-950">
+          <span className="text-3xl sm:text-4xl font-bold tracking-tight text-gray-600">
             Shopping Cart
           </span>
 

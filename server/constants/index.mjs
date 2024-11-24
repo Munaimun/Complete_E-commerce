@@ -12,6 +12,7 @@ const cat = {
   computersAndLaptop: "computersAndLaptop",
   camerasAndPhotos: "camerasAndPhotos",
 };
+
 export const categories = [
   {
     _id: 1001,

@@ -128,6 +128,7 @@ const Header = () => {
               {favoriteProduct?.length > 0 ? favoriteProduct?.length : 0}
             </span>
           </Link>
+
           <Link to={"/cart"} className="relative block">
             <FiShoppingBag className="duration-200 cursor-pointer" />
             <span className="inline-flex items-center justify-center absolute -top-2 -right-2 text-[9px]  rounded-full w-4 h-4 text-white">
@@ -135,6 +136,13 @@ const Header = () => {
                 {totalCartQuantity > 0 ? totalCartQuantity : "0"}
               </span>
             </span>
+          </Link>
+
+          <Link
+            to={"/signin"}
+            className="flex items-center justify-center relative h-[20px] sm:h-[40px] w-14 sm:w-20 overflow-hidden sm:border border-gray-950 bg-white text-gray-950 shadow-2xl transition-all before:absolute before:left-0 before:right-0 before:top-0 before:h-0 before:w-full before:bg-gray-950 before:duration-500 after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0 after:w-full after:bg-gray-950 after:duration-100 hover:text-white hover:shadow-gray-950 hover:before:h-2/4 hover:after:h-2/4"
+          >
+            <span className="relative text-base z-10">Sign-In</span>
           </Link>
         </div>
       </div>
