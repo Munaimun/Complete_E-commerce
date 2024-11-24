@@ -1,4 +1,5 @@
-import { useState } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useState, ChangeEvent, FormEvent } from "react"; // Import necessary types
 import toast from "react-hot-toast";
 
 import {
@@ -22,7 +23,8 @@ const SignUp = () => {
 
   const resetFormFields = () => setFormFields(defaultFormFields);
 
-  const handleSubmit = async (e) => {
+  // Type the event parameter as FormEvent for form submission
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (password !== confirmPassword) {
@@ -31,15 +33,22 @@ const SignUp = () => {
     }
 
     try {
-      const { user } = await createAuthUserWithEmailAndPassword(
+      // TypeScript doesn't know that user exists, so we use optional chaining to handle this
+      const userCredential = await createAuthUserWithEmailAndPassword(
         email,
         password
       );
+      const user = userCredential?.user;
+
+      if (!user) {
+        throw new Error("User not found");
+      }
 
       await createUserDocumentFromAuth(user, { displayName });
       resetFormFields();
-      toast.success("Successfully Signup User 🎉");
-    } catch (error) {
+      toast.success("Successfully Signed Up 🎉");
+    } catch (error: any) {
+      // Use 'any' type for error to avoid unknown type error
       if (error.code === "auth/email-already-in-use") {
         toast.error("This email is already in use");
       } else {
@@ -48,7 +57,8 @@ const SignUp = () => {
     }
   };
 
-  const handleChange = (e) => {
+  // Type the event parameter as ChangeEvent<HTMLInputElement> for input change
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
     setFormFields({ ...formFields, [name]: value });
@@ -58,7 +68,7 @@ const SignUp = () => {
     <div className="w-96 flex flex-col">
       <span className="font-semibold">Don't have an account!</span>
       <span className="text-2xl text-yellow-400 font-semibold">
-        Sing up with email and password
+        Sign up with email and password
       </span>
 
       <form onSubmit={handleSubmit}>
