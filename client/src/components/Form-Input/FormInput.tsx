@@ -12,7 +12,7 @@ const FormInput: React.FC<FormInputProps> = ({ label, ...otherProps }) => {
         <label
           className={`absolute left-1 top-2 text-gray-500 text-base transition-all duration-300 pointer-events-none ${
             otherProps.value?.toString().length
-              ? "-top-5 text-xs text-black"
+              ? "-top-6 text-xs text-black"
               : ""
           }`}
         >

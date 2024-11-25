@@ -3,8 +3,6 @@ import {
   createUserDocumentFromAuth,
 } from "../lib/firebase";
 
-import SignUp from "./SignUp";
-
 const SignIn = () => {
   const logGoogleUser = async () => {
     const { user } = await signInWithGooglePopup();
@@ -13,11 +11,7 @@ const SignIn = () => {
   };
 
   return (
-    <div className="max-w-screen-xl mx-auto mt-5">
-      <span className="text-3xl sm:text-4xl font-bold tracking-tight text-gray-600">
-        Sign In Page
-      </span>
-
+    <div>
       {/* FORMS */}
       <div className="flex flex-wrap justify-around px-6 mt-6">
         {/* SIGN-IN FORM */}
@@ -28,11 +22,6 @@ const SignIn = () => {
           >
             <span className="relative z-10">Sign in with google</span>
           </button>
-        </div>
-
-        {/* SIGN-UP FORM */}
-        <div>
-          <SignUp />
         </div>
       </div>
     </div>

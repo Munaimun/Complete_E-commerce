@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   Menu,
@@ -20,6 +20,7 @@ import { CategoryProps, ProductProps } from "../../type";
 import logo from "../assets/logo.png";
 import ProductCard from "./ProductCard";
 import { store } from "../lib/store";
+import { UserContext } from "../context/UserContext";
 
 // all the navigation links
 const bottomNavigation = [
@@ -37,6 +38,10 @@ const Header = () => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const { cartProduct, favoriteProduct } = store();
+
+  const { currentUser } = useContext(UserContext);
+
+  console.log(currentUser);
 
   const totalCartQuantity = cartProduct.reduce(
     (acc, product) => acc + (product.quantity || 1), // defaults to 1 if quantity is not defined
@@ -139,7 +144,7 @@ const Header = () => {
           </Link>
 
           <Link
-            to={"/signin"}
+            to={"/auth"}
             className="flex items-center justify-center relative h-[20px] sm:h-[40px] w-14 sm:w-20 overflow-hidden sm:border border-gray-950 bg-white text-gray-950 shadow-2xl transition-all before:absolute before:left-0 before:right-0 before:top-0 before:h-0 before:w-full before:bg-gray-950 before:duration-500 after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0 after:w-full after:bg-gray-950 after:duration-100 hover:text-white hover:shadow-gray-950 hover:before:h-2/4 hover:after:h-2/4"
           >
             <span className="relative text-base z-10">Sign-In</span>

@@ -13,7 +13,9 @@ import Cancel from "./pages/Cancel.tsx";
 import Blog from "./pages/Blog.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import App from "./App.tsx";
-import SignIn from "./pages/Sign-In.tsx";
+import Authentication from "./pages/Authentication.tsx";
+
+import { UserProvider } from "./context/UserContext.tsx";
 
 import "./index.css";
 
@@ -52,8 +54,8 @@ const router = createBrowserRouter([
         element: <Cart />,
       },
       {
-        path: "/signin",
-        element: <SignIn />,
+        path: "/auth",
+        element: <Authentication />,
       },
       {
         path: "/favorite",
@@ -84,5 +86,7 @@ const router = createBrowserRouter([
 ]);
 
 createRoot(document.getElementById("root")!).render(
-  <RouterProvider router={router} />
+  <UserProvider>
+    <RouterProvider router={router} />
+  </UserProvider>
 );
