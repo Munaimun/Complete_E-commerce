@@ -3,8 +3,8 @@ import { blogsData } from "../constants/index.mjs";
 
 const router = Router();
 
-router.get("/blogs", (req, res) => {
+router.get("/", (req, res) => {
   res.send(blogsData);
 });
 
-export default router;
+export const blogRoute = router;

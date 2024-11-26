@@ -30,14 +30,19 @@ const responsive = {
 };
 
 const BannerCategories = () => {
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState<CategoryProps[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const endpoint = `${config?.baseUrl}/categories`; // containing the api in a variable
+      const endpoint = `${config?.baseUrl}/categories`;
       try {
-        const data = await getData(endpoint); // fetching the data
-        setCategories(data);
+        const data = await getData(endpoint);
+        console.log(data); // Log the data to check its structure
+        if (Array.isArray(data)) {
+          setCategories(data); // Only set categories if it's an array
+        } else {
+          console.error("Expected an array, but received:", data);
+        }
       } catch (error) {
         console.error("Error fetching data", error);
       }

@@ -3,11 +3,11 @@ import { products } from "../constants/index.mjs";
 
 const router = Router();
 
-router.get("/products", (req, res) => {
+router.get("/", (req, res) => {
   res.send(products);
 });
 
-router.get("/products/:id", (req, res) => {
+router.get("/:id", (req, res) => {
   const productId = parseInt(req.params.id);
   const product = products.find((item) => item._id === productId);
 
@@ -17,4 +17,4 @@ router.get("/products/:id", (req, res) => {
   res.send(product);
 });
 
-export default router;
+export const productRoute = router;

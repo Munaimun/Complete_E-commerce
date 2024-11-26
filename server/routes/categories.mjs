@@ -3,11 +3,11 @@ import { categories, products } from "../constants/index.mjs";
 
 const router = Router();
 
-router.get("/categories", (req, res) => {
+router.get("/", (req, res) => {
   res.send(categories);
 });
 
-router.get("/categories/:id", (req, res) => {
+router.get("/:id", (req, res) => {
   const id = req.params.id;
   const matchedProducts = products?.filter((item) => item?._base === id);
 
@@ -19,4 +19,4 @@ router.get("/categories/:id", (req, res) => {
   res.json(matchedProducts);
 });
 
-export default router;
+export const categoryRoutes = router;
