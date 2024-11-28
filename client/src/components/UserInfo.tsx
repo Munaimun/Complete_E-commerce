@@ -4,13 +4,17 @@ import toast from "react-hot-toast";
 import { UserTypes } from "../../type";
 import { auth } from "../lib/firebase";
 import Container from "./Container";
+import { useContext } from "react";
+import { UserContext } from "../context/UserContext";
 
 const UserInfo = ({ currentUser }: UserTypes) => {
+  const { setCurrentUser } = useContext(UserContext);
   const navigate = useNavigate();
 
   const handleClick = () => {
     auth.signOut();
     navigate("/");
+    setCurrentUser(null);
     toast.success("signout successfull");
   };
 
@@ -32,22 +36,6 @@ const UserInfo = ({ currentUser }: UserTypes) => {
           </div>
         </div>
         <div className="mt-10 flex items-center gap-x-5 px-4">
-          <button
-            onClick={() =>
-              toast.error("Edit profile option available to pro version!")
-            }
-            className="rounded-md bg-white px-8 py-2.5 text-sm font-semibold text-gray-900 hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
-          >
-            Edit profile
-          </button>
-          <button
-            onClick={() =>
-              toast.error("Add Address option available to pro version!")
-            }
-            className="rounded-md bg-white px-8 py-2.5 text-sm font-semibold text-gray-900 hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
-          >
-            Add Address
-          </button>
           <button
             onClick={handleClick}
             className="rounded-md bg-white px-8 py-2.5 text-sm font-semibold text-gray-900 hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"

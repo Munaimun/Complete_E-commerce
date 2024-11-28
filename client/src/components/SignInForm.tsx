@@ -31,6 +31,9 @@ const SignInForm = () => {
   const signInWithGoogle = async () => {
     const { user } = await signInWithGooglePopup();
     await createUserDocumentFromAuth(user);
+    setCurrentUser(user);
+    navigate("/");
+    toast.success("Login Successful 😄");
   };
 
   // Type the event parameter as FormEvent for form submission

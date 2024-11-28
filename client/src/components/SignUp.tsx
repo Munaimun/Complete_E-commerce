@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState, ChangeEvent, FormEvent } from "react"; // Import necessary types
+import { useState, ChangeEvent, FormEvent, useContext } from "react"; // Import necessary types
 import toast from "react-hot-toast";
 
 import {
@@ -8,6 +8,8 @@ import {
 } from "../lib/firebase";
 
 import FormInput from "./Form-Input/FormInput";
+import { UserContext } from "../context/UserContext";
+import { useNavigate } from "react-router-dom";
 
 const defaultFormFields = {
   displayName: "",
@@ -18,6 +20,8 @@ const defaultFormFields = {
 
 const SignUp = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
+  const { currentUser, setCurrentUser } = useContext(UserContext);
+  const navigate = useNavigate();
 
   const { displayName, email, password, confirmPassword } = formFields;
 
@@ -45,6 +49,10 @@ const SignUp = () => {
       }
 
       await createUserDocumentFromAuth(user, { displayName });
+      setCurrentUser(user);
+      if (currentUser) {
+        navigate("/");
+      }
       resetFormFields();
       toast.success("Successfully Signed Up 🎉");
     } catch (error: any) {
