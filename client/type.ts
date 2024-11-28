@@ -45,8 +45,7 @@ export interface HighlightsType {
   
   export interface UserTypes {
     currentUser: {
-      firstName: string;
-      lastName: string;
+      displayName?: string,
       email: string;
       avatar: string;
       id: string;
