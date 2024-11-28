@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Menu,
   MenuButton,
@@ -17,10 +17,14 @@ import { getData } from "../lib";
 
 import { CategoryProps, ProductProps } from "../../type";
 
-import logo from "../assets/logo.png";
-import ProductCard from "./ProductCard";
+import { auth } from "../lib/firebase";
 import { store } from "../lib/store";
+import { signOut } from "firebase/auth";
+
 import { UserContext } from "../context/UserContext";
+
+import ProductCard from "./ProductCard";
+import logo from "../assets/logo.png";
 
 // all the navigation links
 const bottomNavigation = [
@@ -39,9 +43,8 @@ const Header = () => {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const { cartProduct, favoriteProduct } = store();
 
-  const { currentUser } = useContext(UserContext);
-
-  console.log(currentUser);
+  const { currentUser, setCurrentUser } = useContext(UserContext);
+  const navigate = useNavigate();
 
   const totalCartQuantity = cartProduct.reduce(
     (acc, product) => acc + (product.quantity || 1), // defaults to 1 if quantity is not defined
@@ -75,6 +78,12 @@ const Header = () => {
 
     setFilteredProducts(filtered); // Save the filtered list to state
   }, [searchText, products]);
+
+  const handleSignOut = async () => {
+    await signOut(auth);
+    setCurrentUser(null);
+    navigate("/"); // Redirect to home after logging out
+  };
 
   return (
     <div className="md:sticky bg-white md:top-0 z-50 mx-auto">
@@ -143,12 +152,22 @@ const Header = () => {
             </span>
           </Link>
 
-          <Link
-            to={"/auth"}
-            className="flex items-center justify-center relative h-[20px] sm:h-[40px] w-14 sm:w-20 overflow-hidden sm:border border-gray-950 bg-white text-gray-950 shadow-2xl transition-all before:absolute before:left-0 before:right-0 before:top-0 before:h-0 before:w-full before:bg-gray-950 before:duration-500 after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0 after:w-full after:bg-gray-950 after:duration-100 hover:text-white hover:shadow-gray-950 hover:before:h-2/4 hover:after:h-2/4"
-          >
-            <span className="relative text-base z-10">Sign-In</span>
-          </Link>
+          {currentUser ? (
+            <Link
+              to={"/auth"}
+              className="flex items-center justify-center relative h-[20px] sm:h-[40px] w-14 sm:w-20 overflow-hidden sm:border border-gray-950 bg-white text-gray-950 shadow-2xl transition-all before:absolute before:left-0 before:right-0 before:top-0 before:h-0 before:w-full before:bg-gray-950 before:duration-500 after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0 after:w-full after:bg-gray-950 after:duration-100 hover:text-white hover:shadow-gray-950 hover:before:h-2/4 hover:after:h-2/4"
+              onClick={handleSignOut}
+            >
+              <span className="relative text-base z-10">Sign-Out</span>
+            </Link>
+          ) : (
+            <Link
+              to={"/auth"}
+              className="flex items-center justify-center relative h-[20px] sm:h-[40px] w-14 sm:w-20 overflow-hidden sm:border border-gray-950 bg-white text-gray-950 shadow-2xl transition-all before:absolute before:left-0 before:right-0 before:top-0 before:h-0 before:w-full before:bg-gray-950 before:duration-500 after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0 after:w-full after:bg-gray-950 after:duration-100 hover:text-white hover:shadow-gray-950 hover:before:h-2/4 hover:after:h-2/4"
+            >
+              <span className="relative text-base z-10">Sign-In</span>
+            </Link>
+          )}
         </div>
       </div>
 

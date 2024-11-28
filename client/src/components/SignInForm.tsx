@@ -11,6 +11,7 @@ import {
 } from "../lib/firebase";
 
 import { UserContext } from "../context/UserContext";
+import { useNavigate } from "react-router-dom";
 
 const defaultFormFields = {
   email: "",
@@ -23,6 +24,7 @@ const SignInForm = () => {
   const { email, password } = formFields;
 
   const { setCurrentUser } = useContext(UserContext);
+  const navigate = useNavigate();
 
   const resetFormFields = () => setFormFields(defaultFormFields);
 
@@ -50,6 +52,7 @@ const SignInForm = () => {
       setCurrentUser(user);
 
       resetFormFields();
+      navigate("/");
       toast.success("Login Successful 😄");
     } catch (error: any) {
       if (error.code === "auth/invalid-credential") {

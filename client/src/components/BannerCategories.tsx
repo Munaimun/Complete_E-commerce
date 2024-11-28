@@ -37,7 +37,7 @@ const BannerCategories = () => {
       const endpoint = `${config?.baseUrl}/categories`;
       try {
         const data = await getData(endpoint);
-        console.log(data); // Log the data to check its structure
+        // console.log(data); // Log the data to check its structure
         if (Array.isArray(data)) {
           setCategories(data); // Only set categories if it's an array
         } else {

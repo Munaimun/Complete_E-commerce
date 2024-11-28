@@ -18,6 +18,7 @@ import Authentication from "./pages/Authentication.tsx";
 import { UserProvider } from "./context/UserContext.tsx";
 
 import "./index.css";
+import MyAccount from "./pages/MyAccount.tsx";
 
 // Defining all the paths/routes
 const router = createBrowserRouter([
@@ -45,10 +46,10 @@ const router = createBrowserRouter([
         path: "/category/:id",
         element: <Category />,
       },
-      // {
-      //   path: "/profile",
-      //   element: <Profile />,
-      // },
+      {
+        path: "/profile",
+        element: <MyAccount />,
+      },
       {
         path: "/cart",
         element: <Cart />,

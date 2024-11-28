@@ -7,7 +7,7 @@ export const getData = async (endpoint: string) => {
         "Content-Type": "application/json",
       },
     });
-    console.log('API Response:', response); // Log the full response
+    // console.log('API Response:', response); // Log the full response
     return response.data;
   } catch (error) {
     console.error("Error while fetching data", error);
