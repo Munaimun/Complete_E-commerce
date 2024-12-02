@@ -7,14 +7,16 @@ interface FormInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 
 const FormInput: React.FC<FormInputProps> = ({ label, ...otherProps }) => {
   return (
-    <div className="relative my-12">
+    <div className="relative my-12 focus-within:border-black">
       {label && (
         <label
-          className={`absolute left-1 top-2 text-gray-500 text-base transition-all duration-300 pointer-events-none ${
-            otherProps.value?.toString().length
-              ? "-top-8 text-xs text-black"
-              : ""
-          }`}
+          className={`absolute left-2 top-2 text-gray-500 text-base transition-all duration-300 pointer-events-none 
+            ${
+              otherProps.value?.toString().length ||
+              document.activeElement === null
+                ? "-top-4 text-xs text-black"
+                : "top-2 text-base"
+            }`}
         >
           {label}
         </label>
