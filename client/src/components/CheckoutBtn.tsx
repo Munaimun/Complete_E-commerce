@@ -1,4 +1,3 @@
-// import { ProductProps } from "../../type";
 import { Link } from "react-router-dom";
 
 import { useContext } from "react";

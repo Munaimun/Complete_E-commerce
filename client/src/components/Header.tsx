@@ -81,8 +81,8 @@ const Header = () => {
 
   const handleSignOut = async () => {
     await signOut(auth);
-    setCurrentUser(null);
-    navigate("/"); // Redirect to home after logging out
+    setCurrentUser(null); // Reset currentUser state
+    navigate("/"); // Redirect to home after signing out
   };
 
   return (

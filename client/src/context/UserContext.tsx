@@ -1,15 +1,16 @@
-import { createContext, useState, ReactNode } from "react";
-import { User } from "firebase/auth"; // Import User type
+import { useEffect, useState, ReactNode, createContext } from "react";
+import { User } from "firebase/auth";
+import { auth } from "../lib/firebase"; // Import your Firebase auth instance
 
 type UserContextType = {
-  currentUser: User | null; // Allow currentUser to be of type User or null
+  currentUser: User | null;
   setCurrentUser: React.Dispatch<React.SetStateAction<User | null>>;
 };
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const UserContext = createContext<UserContextType>({
   currentUser: null,
-  setCurrentUser: () => {}, // Placeholder
+  setCurrentUser: () => {},
 });
 
 type UserProviderProps = {
@@ -17,7 +18,18 @@ type UserProviderProps = {
 };
 
 export const UserProvider = ({ children }: UserProviderProps) => {
-  const [currentUser, setCurrentUser] = useState<User | null>(null); // Updated type
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    // Listen for changes in authentication state
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      setCurrentUser(user); // Set the currentUser if there is one
+    });
+
+    // Clean up the listener on component unmount
+    return () => unsubscribe();
+  }, []);
+
   const value = { currentUser, setCurrentUser };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
