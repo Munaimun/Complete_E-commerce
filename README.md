@@ -1,4 +1,4 @@
-Modern E-Commerce Platform with Real-Time Features
+**Modern E-Commerce Platform with Real-Time Features**
 Problem Statement
 
 Traditional e-commerce platforms often lack real-time updates, seamless user experiences, and robust security features. Users face issues like slow cart updates, insecure transactions, and poor performance, which can lead to a frustrating shopping experience.
