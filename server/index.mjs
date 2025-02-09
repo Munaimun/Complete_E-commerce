@@ -14,7 +14,7 @@ app.use(
   cors({
     origin: "*", // Allow requests from this origin
     methods: ["GET", "POST"], // Allow GET and POST methods
-    credentials: true, // Allow cookies to be sent if needed
+    // credentials: true,
   })
 );
 
