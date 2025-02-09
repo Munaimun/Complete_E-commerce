@@ -12,7 +12,7 @@ app.use(express.json());
 // CORS configuration to allow frontend requests from localhost:5173
 app.use(
   cors({
-    origin: "http://localhost:5173", // Allow requests from this origin
+    origin: ["http://localhost:5173", "https://complete-e-commerce-7v1b.vercel.app"], // Allow requests from this origin
     methods: ["GET", "POST"], // Allow GET and POST methods
     credentials: true, // Allow cookies to be sent if needed
   })
