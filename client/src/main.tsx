@@ -18,6 +18,8 @@ import MyAccount from "./pages/MyAccount.tsx";
 import { UserProvider } from "./context/UserContext.tsx";
 
 import "./index.css";
+import CheckoutProcess from "./pages/CheckoutProcess.tsx";
+import ProtectedRoute from "./components/ProtectedRoute.tsx";
 
 // Defining all the paths/routes
 const router = createBrowserRouter([
@@ -76,6 +78,10 @@ const router = createBrowserRouter([
       {
         path: "/cancel",
         element: <Cancel />,
+      },
+      {
+        path: "/checkout",
+        element: <ProtectedRoute><CheckoutProcess /></ProtectedRoute>,
       },
       {
         path: "*",

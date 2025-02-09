@@ -14,6 +14,6 @@ interface Config {
     }
   };
   
-  export const selectServer = "production";
+  export const selectServer = "local";
   export const config = checkConfig(selectServer) as Config;
   

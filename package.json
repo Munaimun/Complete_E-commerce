@@ -1,5 +1,9 @@
 {
   "devDependencies": {
     "@types/babel__generator": "^7.6.8"
+  },
+  "dependencies": {
+    "bkash-payment": "^3.0.5",
+    "install": "^0.13.0"
   }
 }

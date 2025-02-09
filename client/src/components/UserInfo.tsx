@@ -4,12 +4,20 @@ import toast from "react-hot-toast";
 import { UserTypes } from "../../type";
 import { auth } from "../lib/firebase";
 import Container from "./Container";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { UserContext } from "../context/UserContext";
 
 const UserInfo = ({ currentUser }: UserTypes) => {
   const { setCurrentUser } = useContext(UserContext);
   const navigate = useNavigate();
+
+
+  useEffect(() => {
+    const user = auth.currentUser;
+    if (user) {
+      setCurrentUser(user);  // Ensure currentUser is updated correctly
+    }
+  }, []);
 
   const handleClick = () => {
     auth.signOut();

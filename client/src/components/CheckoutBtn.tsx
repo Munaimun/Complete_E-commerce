@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { useContext } from "react";
 import { UserContext } from "../context/UserContext";
@@ -6,9 +6,11 @@ import { ProductProps } from "../../type";
 
 const CheckoutBtn = ({ products }: { products: ProductProps[] }) => {
   const { currentUser } = useContext(UserContext);
+  const navigate = useNavigate()
 
   const handleCheckout = () => {
-    console.log(products);
+      // navigate to checkout page
+      navigate("/checkout", { state: { products } });
   };
 
   return (
