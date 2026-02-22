@@ -83,6 +83,7 @@ app.post("/checkout", async (req, res) => {
   }
 });
 
-app.listen(port, () => {
-  console.log(`Server is running on ${port}`);
-});
+// app.listen(port, () => {
+//   console.log(`Server is running on ${port}`);
+// });
+export default app;
