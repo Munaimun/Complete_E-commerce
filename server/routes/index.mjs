@@ -20,6 +20,20 @@ const moduleRoutes = [
   { path: "/admin", route: adminRoute },
 ];
 
-moduleRoutes.forEach((route) => router.use(route.path, route.route));
+// Log mounted routes for debugging on Vercel deployments
+try {
+  console.log("Server: about to mount routes:", moduleRoutes.map((r) => r.path));
+} catch (e) {
+  // ignore logging errors in strict environments
+}
+
+moduleRoutes.forEach((route) => {
+  try {
+    router.use(route.path, route.route);
+    console.log(`Mounted route: ${route.path}`);
+  } catch (err) {
+    console.error(`Failed to mount route ${route.path}:`, err && err.message ? err.message : err);
+  }
+});
 
 export default router;
