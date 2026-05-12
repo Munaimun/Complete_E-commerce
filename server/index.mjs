@@ -2,9 +2,11 @@ import express from "express";
 import cors from "cors";
 import "dotenv/config";
 import router from "./routes/index.mjs"; // Assuming you have your routes here
+import { initializeDatabase } from "./db/init.mjs";
+import { pool } from "./db/pool.mjs";
+import { createOrderFromPayload } from "./utils/orderService.mjs";
+import { requireAuth } from "./middleware/auth.mjs";
 const app = express();
-
-import SSLCommerzPayment from 'sslcommerz-lts';
 
 const port = process.env.PORT || 8000;
 app.use(express.json());
@@ -12,7 +14,7 @@ app.use(express.json());
 // CORS configuration to allow frontend requests from localhost:5173
 app.use(
   cors({
-    origin: "*", // Allow requests from this origin
+    origin: "*", // Allow requests from all origins
     methods: ["GET", "POST"], // Allow GET and POST methods
     // credentials: true,
   })
@@ -21,6 +23,15 @@ app.use(
 // Routes
 app.use("/", router);
 
+app.get("/health", async (_req, res) => {
+  try {
+    await pool.query("SELECT 1");
+    res.json({ status: "ok", database: "connected" });
+  } catch (error) {
+    res.status(500).json({ status: "error", database: "disconnected" });
+  }
+});
+
 // Catch-all route to serve index.html for unmatched routes
 app.get("*", (req, res) => {
   res.send("done");
@@ -28,47 +39,14 @@ app.get("*", (req, res) => {
 });
 
 // Checkout route
-app.post("/checkout", async (req, res) => {
+app.post("/checkout", requireAuth, async (req, res) => {
+  const conn = await pool.getConnection();
   try {
-    const { productId } = req.body;
-    const product = await productCollection.findOne({ _id: new ObjectId(productId) });
-
-    if (!product) {
-      return res.status(404).json({ error: "Product not found" });
+    if (req.user?.email !== req.body?.email) {
+      return res.status(403).json({ error: "Order email does not match authenticated user" });
     }
 
-    console.log(product);
-
-    const data = {
-      total_amount: 100,
-      currency: "BDT",
-      tran_id: "REF123",
-      success_url: "http://localhost:3030/success",
-      fail_url: "http://localhost:3030/fail",
-      cancel_url: "http://localhost:3030/cancel",
-      ipn_url: "http://localhost:3030/ipn",
-      shipping_method: "Courier",
-      product_name: product.name,
-      product_category: product.category || "General",
-      product_profile: "general",
-      cus_name: "Customer Name",
-      cus_email: "customer@example.com",
-      cus_add1: "Dhaka",
-      cus_add2: "Dhaka",
-      cus_city: "Dhaka",
-      cus_state: "Dhaka",
-      cus_postcode: "1000",
-      cus_country: "Bangladesh",
-      cus_phone: "01711111111",
-      cus_fax: "01711111111",
-      ship_name: "Customer Name",
-      ship_add1: "Dhaka",
-      ship_add2: "Dhaka",
-      ship_city: "Dhaka",
-      ship_state: "Dhaka",
-      ship_postcode: 1000,
-      ship_country: "Bangladesh",
-    };
+    const createdOrder = await createOrderFromPayload(conn, req.body);
 
     // Uncomment SSLCommerz logic when ready
     // const sslcz = new SSLCommerzPayment(store_id, store_passwd, is_live);
@@ -77,13 +55,34 @@ app.post("/checkout", async (req, res) => {
     //   res.redirect(GatewayPageURL);
     //   console.log("Redirecting to:", GatewayPageURL);
     // });
+    return res.status(201).json({
+      message: "Order placed successfully",
+      order: createdOrder,
+    });
   } catch (error) {
-    console.error("Error processing order:", error);
-    res.status(500).json({ error: "Failed to process order." });
+    console.error("Error processing order", error);
+    const code = error.statusCode || 500;
+    return res.status(code).json({ error: error.message || "Failed to process order." });
+  } finally {
+    conn.release();
   }
 });
 
-// app.listen(port, () => {
-//   console.log(`Server is running on ${port}`);
-// });
+const bootstrap = async () => {
+  try {
+    await initializeDatabase();
+
+    if (process.env.VERCEL !== "1") {
+      app.listen(port, () => {
+        console.log(`Server is running on ${port}`);
+      });
+    }
+  } catch (error) {
+    console.error("Failed to initialize server", error);
+    process.exit(1);
+  }
+};
+
+bootstrap();
+
 export default app;

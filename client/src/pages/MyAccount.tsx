@@ -1,26 +1,16 @@
-import { useEffect } from "react";
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { store } from "../lib/store";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../lib/firebase";
+import { UserContext } from "../context/UserContext";
 
 import Container from "../components/Container";
 import UserInfo from "../components/UserInfo";
-import Loading from "../components/Loading";
 
 const MyAccount = () => {
-  const { currentUser, getUserInfo, isLoading } = store();
+  const { currentUser } = useContext(UserContext);
   const navigate = useNavigate();
 
   const handleClick = () => navigate("/auth");
-
-  useEffect(() => {
-    const onSub = onAuthStateChanged(auth, (user) => {
-      getUserInfo(user?.uid);
-    });
-    return () => onSub();
-  }, [getUserInfo]);
 
   return (
     <Container>
@@ -37,7 +27,6 @@ const MyAccount = () => {
           </button>
         </div>
       )}
-      {isLoading && <Loading />}
     </Container>
   );
 };

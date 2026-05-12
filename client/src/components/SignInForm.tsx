@@ -1,14 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, ChangeEvent, FormEvent, useContext } from "react";
+import axios from "axios";
 
 import toast from "react-hot-toast";
 
 import FormInput from "./Form-Input/FormInput";
-import {
-  createUserDocumentFromAuth,
-  signInWithGooglePopup,
-  signInAuthUserWithEmailAndPassword,
-} from "../lib/firebase";
+import { config } from "../../config";
 
 import { UserContext } from "../context/UserContext";
 import { useNavigate } from "react-router-dom";
@@ -23,42 +20,28 @@ const SignInForm = () => {
 
   const { email, password } = formFields;
 
-  const { setCurrentUser } = useContext(UserContext);
+  const { setAuth } = useContext(UserContext);
   const navigate = useNavigate();
 
   const resetFormFields = () => setFormFields(defaultFormFields);
-
-  const signInWithGoogle = async () => {
-    const { user } = await signInWithGooglePopup();
-    await createUserDocumentFromAuth(user);
-    setCurrentUser(user);
-    navigate("/");
-    toast.success("Login Successful 😄");
-  };
 
   // Type the event parameter as FormEvent for form submission
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
-      const userCredential = await signInAuthUserWithEmailAndPassword(
+      const response = await axios.post(`${config?.baseUrl}/users/login`, {
         email,
-        password
-      );
+        password,
+      });
 
-      if (!userCredential) {
-        throw new Error("Failed to authenticate user");
-      }
-
-      const { user } = userCredential;
-
-      setCurrentUser(user);
+      setAuth(response.data.user, response.data.token);
 
       resetFormFields();
       navigate("/");
       toast.success("Login Successful 😄");
     } catch (error: any) {
-      if (error.code === "auth/invalid-credential") {
+      if (error?.response?.status === 401) {
         toast.error("Invalid credential");
       } else {
         toast.error("Authentication failed");
@@ -104,14 +87,6 @@ const SignInForm = () => {
             type="submit"
           >
             <span className="relative z-10">Sign In</span>
-          </button>{" "}
-          <button
-            className="text-red hover:before:bg-redborder-red-500 relative h-[50px] w-40 overflow-hidden border border-orange-500 bg-white px-3 text-orange-500 shadow-2xl transition-all before:absolute before:bottom-0 before:left-0 before:top-0 before:z-0 before:h-full before:w-0 before:bg-orange-500 before:transition-all before:duration-500 hover:text-white hover:shadow-orange-500 hover:before:left-0 hover:before:w-full"
-            type="button"
-          >
-            <span className="relative z-10" onClick={signInWithGoogle}>
-              Google Sign In
-            </span>
           </button>
         </div>
       </form>

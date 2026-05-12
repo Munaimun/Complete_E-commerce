@@ -17,9 +17,7 @@ import { getData } from "../lib";
 
 import { CategoryProps, ProductProps } from "../../type";
 
-import { auth } from "../lib/firebase";
 import { store } from "../lib/store";
-import { signOut } from "firebase/auth";
 
 import { UserContext } from "../context/UserContext";
 
@@ -43,7 +41,7 @@ const Header = () => {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const { cartProduct, favoriteProduct } = store();
 
-  const { currentUser, setCurrentUser } = useContext(UserContext);
+  const { currentUser, logout } = useContext(UserContext);
   const navigate = useNavigate();
 
   const totalCartQuantity = cartProduct.reduce(
@@ -80,8 +78,7 @@ const Header = () => {
   }, [searchText, products]);
 
   const handleSignOut = async () => {
-    await signOut(auth);
-    setCurrentUser(null); // Reset currentUser state
+    logout();
     navigate("/"); // Redirect to home after signing out
   };
 

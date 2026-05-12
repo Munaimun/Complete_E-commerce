@@ -1,16 +1,21 @@
 import { useEffect, useState, ReactNode, createContext } from "react";
-import { User } from "firebase/auth";
-import { auth } from "../lib/firebase"; // Import your Firebase auth instance
+import axios from "axios";
+import { AppUser } from "../../type";
+import { config } from "../../config";
 
 type UserContextType = {
-  currentUser: User | null;
-  setCurrentUser: React.Dispatch<React.SetStateAction<User | null>>;
+  currentUser: AppUser | null;
+  token: string | null;
+  setAuth: (user: AppUser, jwtToken: string) => void;
+  logout: () => void;
 };
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const UserContext = createContext<UserContextType>({
   currentUser: null,
-  setCurrentUser: () => {},
+  token: null,
+  setAuth: () => {},
+  logout: () => {},
 });
 
 type UserProviderProps = {
@@ -18,19 +23,51 @@ type UserProviderProps = {
 };
 
 export const UserProvider = ({ children }: UserProviderProps) => {
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [currentUser, setCurrentUser] = useState<AppUser | null>(null);
+  const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
-    // Listen for changes in authentication state
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      setCurrentUser(user); // Set the currentUser if there is one
-    });
+    const savedToken = localStorage.getItem("auth_token");
+    const savedUser = localStorage.getItem("auth_user");
 
-    // Clean up the listener on component unmount
-    return () => unsubscribe();
+    if (savedToken && savedUser) {
+      setToken(savedToken);
+      setCurrentUser(JSON.parse(savedUser));
+
+      axios
+        .get(`${config?.baseUrl}/users/profile`, {
+          headers: {
+            Authorization: `Bearer ${savedToken}`,
+          },
+        })
+        .then((res) => {
+          setCurrentUser(res.data);
+          localStorage.setItem("auth_user", JSON.stringify(res.data));
+        })
+        .catch(() => {
+          localStorage.removeItem("auth_token");
+          localStorage.removeItem("auth_user");
+          setToken(null);
+          setCurrentUser(null);
+        });
+    }
   }, []);
 
-  const value = { currentUser, setCurrentUser };
+  const setAuth = (user: AppUser, jwtToken: string) => {
+    setCurrentUser(user);
+    setToken(jwtToken);
+    localStorage.setItem("auth_token", jwtToken);
+    localStorage.setItem("auth_user", JSON.stringify(user));
+  };
+
+  const logout = () => {
+    localStorage.removeItem("auth_token");
+    localStorage.removeItem("auth_user");
+    setToken(null);
+    setCurrentUser(null);
+  };
+
+  const value = { currentUser, token, setAuth, logout };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };

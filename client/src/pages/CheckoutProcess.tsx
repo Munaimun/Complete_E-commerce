@@ -5,11 +5,12 @@ import Container from "../components/Container";
 import FormattedPrice from "../components/FormattedPrice";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { config } from "../../config";
 
 const CheckoutProcess = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
-  const { currentUser } = useContext(UserContext);
+  const { currentUser, token } = useContext(UserContext);
   
   
 
@@ -45,14 +46,16 @@ const CheckoutProcess = () => {
       phone,
       order: {
         products,
+        paymentMethod: "cash_on_delivery",
         total: totalAmount.discounted + 25 + 15, // Total including shipping and tax
       },
     };
   
     try {
-      const response = await axios.post("http://localhost:8000/checkout", orderData, {
+      const response = await axios.post(`${config?.baseUrl}/checkout`, orderData, {
         headers: {
           'Content-Type': 'application/json',
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
         },
       });
       console.log("Order Data Sent:", orderData);

@@ -1,15 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, ChangeEvent, FormEvent, useContext } from "react"; // Import necessary types
+import axios from "axios";
 import toast from "react-hot-toast";
-
-import {
-  createAuthUserWithEmailAndPassword,
-  createUserDocumentFromAuth,
-} from "../lib/firebase";
 
 import FormInput from "./Form-Input/FormInput";
 import { UserContext } from "../context/UserContext";
 import { useNavigate } from "react-router-dom";
+import { config } from "../../config";
 
 const defaultFormFields = {
   displayName: "",
@@ -20,7 +17,7 @@ const defaultFormFields = {
 
 const SignUp = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
-  const { currentUser, setCurrentUser } = useContext(UserContext);
+  const { setAuth } = useContext(UserContext);
   const navigate = useNavigate();
 
   const { displayName, email, password, confirmPassword } = formFields;
@@ -37,27 +34,23 @@ const SignUp = () => {
     }
 
     try {
-      // TypeScript doesn't know that user exists, so we use optional chaining to handle this
-      const userCredential = await createAuthUserWithEmailAndPassword(
+      await axios.post(`${config?.baseUrl}/users/register`, {
         email,
-        password
-      );
-      const user = userCredential?.user;
+        password,
+        fullName: displayName,
+      });
 
-      if (!user) {
-        throw new Error("User not found");
-      }
+      const loginResponse = await axios.post(`${config?.baseUrl}/users/login`, {
+        email,
+        password,
+      });
 
-      await createUserDocumentFromAuth(user, { displayName });
-      setCurrentUser(user);
-      if (currentUser) {
-        navigate("/");
-      }
+      setAuth(loginResponse.data.user, loginResponse.data.token);
+      navigate("/");
       resetFormFields();
       toast.success("Successfully Signed Up 🎉");
     } catch (error: any) {
-      // Use 'any' type for error to avoid unknown type error
-      if (error.code === "auth/email-already-in-use") {
+      if (error?.response?.status === 409) {
         toast.error("This email is already in use");
       } else {
         console.log(error);

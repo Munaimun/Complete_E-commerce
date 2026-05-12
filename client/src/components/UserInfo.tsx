@@ -2,27 +2,17 @@ import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
 import { UserTypes } from "../../type";
-import { auth } from "../lib/firebase";
 import Container from "./Container";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { UserContext } from "../context/UserContext";
 
 const UserInfo = ({ currentUser }: UserTypes) => {
-  const { setCurrentUser } = useContext(UserContext);
+  const { logout } = useContext(UserContext);
   const navigate = useNavigate();
 
-
-  useEffect(() => {
-    const user = auth.currentUser;
-    if (user) {
-      setCurrentUser(user);  // Ensure currentUser is updated correctly
-    }
-  }, []);
-
   const handleClick = () => {
-    auth.signOut();
+    logout();
     navigate("/");
-    setCurrentUser(null);
     toast.success("signout successfull");
   };
 

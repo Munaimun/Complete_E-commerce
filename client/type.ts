@@ -42,14 +42,17 @@ export interface HighlightsType {
     description: string;
     _base: string;
   }
+
+  export interface AppUser {
+    id: number;
+    email: string;
+    displayName?: string | null;
+    role?: "customer" | "admin";
+    avatar?: string | null;
+  }
   
   export interface UserTypes {
-    currentUser: {
-      displayName?: string,
-      email: string;
-      avatar: string;
-      id: string;
-    };
+    currentUser: AppUser;
   }
   
   export interface OrderTypes {
