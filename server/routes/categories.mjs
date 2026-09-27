@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { pool } from "../db/pool.mjs";
 import { mapDbCategory, mapDbProduct } from "../utils/productMapper.mjs";
+import { categories, products, useStaticCatalog } from "../utils/catalogSource.mjs";
 
 const router = Router();
 
@@ -30,6 +31,10 @@ const categoryProductQuery = `
 
 router.get("/", async (req, res) => {
   try {
+    if (useStaticCatalog) {
+      return res.json(categories);
+    }
+
     const [rows] = await pool.query(
       `SELECT id, legacy_id, name, slug, image, description
        FROM categories
@@ -45,6 +50,16 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   try {
     const id = req.params.id;
+
+    if (useStaticCatalog) {
+      const filteredProducts = products.filter((product) => product._base === id);
+      if (!filteredProducts.length) {
+        return res.status(404).json({ message: "No products matched with this category" });
+      }
+
+      return res.json(filteredProducts);
+    }
+
     const sql = `${categoryProductQuery}
       WHERE p.category_slug = ?
       GROUP BY p.id
@@ -52,9 +67,7 @@ router.get("/:id", async (req, res) => {
 
     const [rows] = await pool.query(sql, [id]);
     if (!rows.length) {
-      return res
-        .status(404)
-        .json({ message: "No products matched with this category" });
+      return res.status(404).json({ message: "No products matched with this category" });
     }
 
     return res.json(rows.map(mapDbProduct));

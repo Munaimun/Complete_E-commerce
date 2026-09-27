@@ -22,5 +22,7 @@ interface Config {
 }
 
 export const config: Config = {
-  baseUrl: import.meta.env.VITE_SERVER as string,
+  baseUrl:
+    (import.meta.env.VITE_SERVER as string | undefined) ||
+    "https://complete-e-commerce-backend.vercel.app",
 };

@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { pool } from "../db/pool.mjs";
 import { mapDbProduct } from "../utils/productMapper.mjs";
+import { products, useStaticCatalog } from "../utils/catalogSource.mjs";
 
 const router = Router();
 
@@ -31,6 +32,19 @@ const productQuery = `
 router.get("/", async (req, res) => {
   try {
     const { search, category } = req.query;
+
+    if (useStaticCatalog) {
+      const normalizedSearch = String(search || "").toLowerCase();
+      const filteredProducts = products.filter((product) => {
+        const matchesSearch =
+          !normalizedSearch || product.name.toLowerCase().includes(normalizedSearch);
+        const matchesCategory = !category || product._base === category;
+        return matchesSearch && matchesCategory;
+      });
+
+      return res.json(filteredProducts);
+    }
+
     const conditions = [];
     const params = [];
 
@@ -64,6 +78,15 @@ router.get("/:id", async (req, res) => {
     const incomingId = Number(req.params.id);
     if (!Number.isFinite(incomingId)) {
       return res.status(400).json({ message: "Invalid product id" });
+    }
+
+    if (useStaticCatalog) {
+      const product = products.find((item) => item._id === incomingId);
+      if (!product) {
+        return res.status(404).json({ message: "Product not found" });
+      }
+
+      return res.json(product);
     }
 
     const sql = `${productQuery}

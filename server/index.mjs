@@ -78,8 +78,12 @@ const bootstrap = async () => {
       });
     }
   } catch (error) {
-    console.error("Failed to initialize server", error);
-    process.exit(1);
+    console.error("Database unavailable; starting with static catalog data", error.message);
+    if (process.env.VERCEL !== "1") {
+      app.listen(port, () => {
+        console.log(`Server is running on ${port}`);
+      });
+    }
   }
 };
 
